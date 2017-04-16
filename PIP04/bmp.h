@@ -51,6 +51,7 @@ public:
 	BYTE **newGrey();
 	BYTE **newRGB();
 	BYTE **newRGB(int height, int width);
+	int deleteByteMat(BYTE **dst, int height);
 
 	int writeBmpGrey(BYTE **Data, char *name);
 	int writeBmpRGB(BYTE **Data, char *name);

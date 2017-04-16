@@ -148,12 +148,14 @@ int MyBmp::getWidthGrey()
 
 MyBmp MyBmp::translation(int x, int y)
 {
-	BYTE **res = newRGB(y + bi.biHeight, x + bi.biWidth);
+	BYTE **mat = newRGB(y + bi.biHeight, x + bi.biWidth);
 	for (size_t i = 0; i < y + bi.biHeight; i++)
 	{
-
+		memcpy(mat[i+y] + x, rgb[i], bi.biWidth);
 	}
-	return MyBmp();
+	MyBmp res=MyBmp(y + bi.biHeight, x + bi.biWidth, mat);
+	deleteByteMat(mat, y + bi.biHeight);
+	return res;
 }
 
 BYTE** MyBmp::generateGray(BYTE **ImageData)
@@ -217,6 +219,7 @@ BYTE **MyBmp::newGrey()
 	for (int i = 0; i < nLines; i++)
 	{
 		res[i] = new BYTE[nBytesPerLineGrey];
+		memset(res[i], 0, nBytesPerLineGrey);
 	}
 	return res;
 }
@@ -234,7 +237,18 @@ BYTE ** MyBmp::newRGB(int height, int width)
 	for (int i = 0; i < nLines; i++)
 	{
 		res[i] = new BYTE[((width * 3 + 3) / 4) * 4];
+		memset(res[i], 0, ((width * 3 + 3) / 4) * 4);
 	}
 
 	return res;
+}
+
+int deleteByteMat(BYTE **dst, int height)
+{
+	for (int i = 0; i < height; i++)
+	{
+		delete(dst[i]);
+	}
+	delete(dst);
+	return 0;
 }
