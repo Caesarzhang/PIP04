@@ -1,8 +1,13 @@
 #pragma once
+
+#define PI 3.1415926535
+#define RADIAN(angle) ((angle)*PI/180.0)
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <windows.h>
 #include <ctype.h>
+#include <math.h>
 
 struct myYUV
 {
@@ -60,8 +65,11 @@ public:
 	BYTE **grey;
 	int greyHisto[256];
 
-	MyBmp translation(int x,int y);
-
+	MyBmp *translation(int x, int y);
+	MyBmp *mirror(bool isHorizontal);
+	MyBmp *rotation(double angle);
+	MyBmp *scale(double times);
+	MyBmp *shear(bool isHorizontal, double d);
 
 private:
 
